@@ -31,8 +31,12 @@ def writeCount(row):
             val.text = group
 
 for row in taxonomyReader:
+    if row[0] == "0":
+        L0node = etree.SubElement(root, "node", name=row[2])
+        count = etree.SubElement(L0node, "count")
+        writeCount(row)
     if row[0] == "1":
-        L1node = etree.SubElement(root, "node", name=row[2])
+        L1node = etree.SubElement(L0node, "node", name=row[2])
         count = etree.SubElement(L1node, "count")
         writeCount(row)
     if row[0] == "2":
