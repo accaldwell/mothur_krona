@@ -17,8 +17,8 @@ datasets = etree.SubElement(root, "datasets")
 with open(sys.argv[1], 'r') as taxonomyFile:
   line = taxonomyFile.readline()
 
-  #mothur prints a spurious extra tab at the end of the line, so only read to -1
-  for group in line.split('\t')[5:-1]:
+  #mothur prints a spurious extra tab at the end of the line, so only read to -1, as of mothur 1.37 the spurious tab is gone
+  for group in line.split('\t')[5:]:
     dataset = etree.SubElement(datasets, "dataset")
     dataset.text = group
 
@@ -26,7 +26,7 @@ with open(sys.argv[1], 'r') as taxonomyFile:
 taxonomyReader = csv.reader(open(sys.argv[1]), delimiter='\t')
 
 def writeCount(row):
-    for group in row[5:-1]:
+    for group in row[5:]:
             val = etree.SubElement(count, "val")
             val.text = group
 
