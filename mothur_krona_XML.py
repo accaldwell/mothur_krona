@@ -1,29 +1,32 @@
-__author__ = 'Adam Caldwell'
-
 import sys
 import csv
 from lxml import etree
 
+
+__author__ = 'Adam Caldwell'
+
+
 root = etree.Element('krona')
 
-#print attributes list, currently only count
+# print attributes list, currently only count
 attributes = etree.SubElement(root, "attributes", magnitude="count")
 attribute = etree.SubElement(attributes, "attribute", display="Count")
 attribute.text = "count"
 
 datasets = etree.SubElement(root, "datasets")
 
-#read header, print mothur groups as krona datasets
+# read header, print mothur groups as krona datasets
 with open(sys.argv[1], 'r') as taxonomyFile:
-  line = taxonomyFile.readline()
+    line = taxonomyFile.readline()
 
-  #mothur prints a spurious extra tab at the end of the line, so only read to -1, as of mothur 1.37 the spurious tab is gone
-  for group in line.split('\t')[5:]:
-    dataset = etree.SubElement(datasets, "dataset")
-    dataset.text = group
+# mothur prints a spurious extra tab at the end of the line, so only read to -1, as of mothur 1.37 the spurious tab is gone
+    for group in line.split('\t')[5:]:
+        dataset = etree.SubElement(datasets, "dataset")
+        dataset.text = group
 
-#read through taxonomy summary and print node counts
+# read through taxonomy summary and print node counts
 taxonomyReader = csv.reader(open(sys.argv[1]), delimiter='\t')
+
 
 def writeCount(row):
     for group in row[5:]:
